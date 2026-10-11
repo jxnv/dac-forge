@@ -1,0 +1,43 @@
+title: Microsoft Office Spawning PowerShell Interpreter
+id: e3d4c5b6-7a89-4102-bf34-9876543210ab
+status: stable
+description: >-
+  Detects Microsoft Office productivity applications (Word, Excel, PowerPoint,
+  Outlook) spawning PowerShell child processes, commonly indicative of
+  weaponized macro documents or exploit payloads.
+author: Detection Engineering Team
+date: 2024-03-18
+modified: 2024-03-22
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+  - https://attack.mitre.org/techniques/T1204/002/
+  - https://redcanary.com/threat-detection/office-spawning-powershell/
+tags:
+  - attack.execution
+  - attack.t1059.001
+  - attack.t1204.002
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    ParentImage:
+      - 'WINWORD.EXE'
+      - 'EXCEL.EXE'
+      - 'POWERPNT.EXE'
+      - 'OUTLOOK.EXE'
+    Image:
+      - 'powershell.exe'
+      - 'pwsh.exe'
+  condition: selection
+falsepositives:
+  - Specialized enterprise workflows utilizing Office macros to trigger PowerShell automation (should be strictly scoped by parent path and signing cert)
+level: high
+blindspots:
+  - Office exploiting secondary intermediary interpreters (e.g. wscript.exe, cscript.exe, mshta.exe) prior to spawning PowerShell
+  - Office add-ins running out-of-process via COM object instantiation
+triage_sop:
+  - 1. Identify recipient, originating email message ID, and full path of opened document
+  - 2. Extract and decode Base64 encoded script blocks passed in PowerShell CommandLine
+  - 3. Check for staging/drop of secondary payloads in %TEMP% or %APPDATA%
+  - 4. Block outbound C2 network destinations identified in PowerShell parameters at the perimeter firewall

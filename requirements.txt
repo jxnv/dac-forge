@@ -1,0 +1,10 @@
+# Detection-as-Code Forge Core Dependencies
+pyyaml>=6.0.0
+jsonschema>=4.20.0
+sigma-cli>=0.8.0
+pysigma>=0.11.0
+pysigma-backend-splunk>=0.1.0
+pysigma-backend-kusto>=0.1.0
+pysigma-backend-elasticsearch>=0.1.0
+click>=8.1.0
+colorama>=0.4.6

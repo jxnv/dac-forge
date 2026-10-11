@@ -1,0 +1,14 @@
+{
+  "EventId": 4688,
+  "Channel": "Security",
+  "Computer": "WORKSTATION-01.corp.internal",
+  "TimeCreated": "2024-03-20T14:32:10.123456Z",
+  "SubjectUserName": "svc_admin",
+  "SubjectUserSid": "S-1-5-21-1234567890-1234567890-1001",
+  "Image": "C:\\Windows\\System32\\rundll32.exe",
+  "CommandLine": "rundll32.exe C:\\windows\\System32\\comsvcs.dll, MiniDump 624 C:\\temp\\lsass.dmp full",
+  "ParentImage": "C:\\Windows\\System32\\cmd.exe",
+  "ParentCommandLine": "cmd.exe /c dump_creds.bat",
+  "ProcessId": 4812,
+  "ParentProcessId": 2490
+}

@@ -1,0 +1,17 @@
+{
+  "eventVersion": "1.08",
+  "eventTime": "2024-03-22T08:00:00Z",
+  "eventSource": "ec2.amazonaws.com",
+  "eventName": "DescribeInstances",
+  "awsRegion": "us-east-1",
+  "sourceIPAddress": "198.51.100.10",
+  "userAgent": "Terraform/1.6.0 (+https://www.terraform.io) aws-sdk-go/v1.49.0",
+  "requestParameters": {},
+  "responseElements": null,
+  "userIdentity": {
+    "type": "AssumedRole",
+    "principalId": "AROAJQABLZS4A3QDU576Q:terraform-session",
+    "arn": "arn:aws:sts::123456789012:assumed-role/TerraformPipelineRole/terraform-session",
+    "accountId": "123456789012"
+  }
+}

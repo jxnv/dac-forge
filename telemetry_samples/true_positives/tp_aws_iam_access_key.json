@@ -1,0 +1,26 @@
+{
+  "eventVersion": "1.08",
+  "eventTime": "2024-03-22T18:44:11Z",
+  "eventSource": "iam.amazonaws.com",
+  "eventName": "CreateAccessKey",
+  "awsRegion": "us-east-1",
+  "sourceIPAddress": "198.51.100.42",
+  "userAgent": "aws-cli/2.15.15 Python/3.11.6 Linux/5.15.0",
+  "requestParameters": {
+    "userName": "shadow_admin"
+  },
+  "responseElements": {
+    "accessKey": {
+      "userName": "shadow_admin",
+      "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
+      "status": "Active"
+    }
+  },
+  "userIdentity": {
+    "type": "IAMUser",
+    "principalId": "AIDAJQABLZS4A3QDU576Q",
+    "arn": "arn:aws:iam::123456789012:user/compromised_dev",
+    "accountId": "123456789012",
+    "accessKeyId": "ASIAIOSFODNN7TEMPKEY"
+  }
+}

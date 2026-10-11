@@ -1,0 +1,26 @@
+{
+  "kind": "Event",
+  "apiVersion": "audit.k8s.io/v1",
+  "level": "RequestResponse",
+  "stage": "ResponseComplete",
+  "verb": "create",
+  "resource": "pods",
+  "subresource": "exec",
+  "requestURI": "/api/v1/namespaces/prod-payments/pods/payment-api-7b89f-k2l9/exec?command=%2Fbin%2Fsh&container=app&stdin=true&stdout=true&tty=true",
+  "user": {
+    "username": "developer@corp.internal",
+    "groups": ["system:authenticated", "dev-team"]
+  },
+  "sourceIPs": ["192.0.2.78"],
+  "userAgent": "kubectl/v1.28.2 (linux/amd64) kubernetes/890b139",
+  "objectRef": {
+    "resource": "pods",
+    "namespace": "prod-payments",
+    "name": "payment-api-7b89f-k2l9",
+    "subresource": "exec"
+  },
+  "responseStatus": {
+    "metadata": {},
+    "code": 101
+  }
+}

@@ -1,0 +1,36 @@
+title: LSASS Memory Dumping via Comsvcs DLL
+id: a7f8e8b2-38b9-43c2-901d-723048569101
+status: stable
+description: Detects memory extraction of the Local Security Authority Subsystem Service (LSASS) process using rundll32.exe invoking comsvcs.dll MiniDump export.
+author: Detection Engineering Team
+date: 2024-03-15
+modified: 2024-03-20
+references:
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
+  - https://redcanary.com/threat-detection/lsass-memory-dump/
+tags:
+  - attack.credential_access
+  - attack.t1003.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image: 'rundll32.exe'
+    CommandLine:
+      - 'comsvcs.dll'
+      - 'MiniDump'
+  condition: selection
+falsepositives:
+  - Rare enterprise administrative diagnostics using memory dumps for debugging
+level: high
+blindspots:
+  - Renamed rundll32.exe binaries or direct invocation via ordinal without exported symbol name
+  - Direct Win32 API calls (MiniDumpWriteDump) from custom unmanaged binaries bypassing command-line telemetry
+triage_sop:
+  - 1. Isolate endpoint immediately to prevent credential harvesting propagation
+  - 2. Inspect target directory where memory dump was written and securely acquire for forensics
+  - 3. Identify user context and parent process (ParentImage, ParentCommandLine)
+  - 4. Reset passwords and invalidate active Kerberos tickets for any accounts logged on to target host
+  - 5. Review network connections around event timestamp for lateral movement indicators

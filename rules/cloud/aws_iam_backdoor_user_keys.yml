@@ -1,0 +1,32 @@
+title: AWS IAM CreateAccessKey Suspicious Persistence
+id: b4c5d6e7-8f90-4213-ad56-123456789cde
+status: stable
+description: Detects generation of new AWS IAM access keys via CloudTrail API, indicative of adversary persistence mechanisms or account backdooring.
+author: Cloud Detection Engineering Team
+date: 2024-03-20
+modified: 2024-03-24
+references:
+  - https://attack.mitre.org/techniques/T1098/001/
+  - https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html
+tags:
+  - attack.persistence
+  - attack.t1098.001
+logsource:
+  service: cloudtrail
+  product: aws
+detection:
+  selection:
+    eventSource: 'iam.amazonaws.com'
+    eventName: 'CreateAccessKey'
+  condition: selection
+falsepositives:
+  - Legitimate automated IAM credential rotation mechanisms (e.g. Terraform, AWS Secrets Manager)
+  - Authorized DevOps engineers provisioning developer keys through approved change windows
+level: medium
+blindspots:
+  - Adversaries creating temporary credentials via STS AssumeRole or GetSessionToken rather than long-lived IAM keys
+triage_sop:
+  - 1. Determine the calling identity ARN and source IP address in CloudTrail
+  - 2. Verify whether source IP belongs to known corporate VPN, egress range, or cloud CI/CD worker
+  - 3. Check target username receiving the new key and confirm approval with account owner
+  - 4. If unauthorized, immediately deactivate the AccessKeyId in AWS IAM Console and audit subsequent API calls

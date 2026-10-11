@@ -1,0 +1,14 @@
+{
+  "EventId": 4688,
+  "Channel": "Security",
+  "Computer": "WORKSTATION-01.corp.internal",
+  "TimeCreated": "2024-03-21T03:00:15.654321Z",
+  "SubjectUserName": "SYSTEM",
+  "SubjectUserSid": "S-1-5-18",
+  "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+  "CommandLine": "powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File \"C:\\Windows\\CCM\\SystemHealthCheck.ps1\"",
+  "ParentImage": "C:\\Windows\\CCM\\CcmExec.exe",
+  "ParentCommandLine": "\"C:\\Windows\\CCM\\CcmExec.exe\"",
+  "ProcessId": 5124,
+  "ParentProcessId": 1104
+}

@@ -1,0 +1,99 @@
+name: Detection-as-Code CI/CD Pipeline
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-validate:
+    name: 1. Schema Validation & ADS Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Linting Tools
+        run: |
+          pip install -r requirements-test.txt
+
+      - name: Validate Rule Schemas & Required Metadata
+        run: |
+          python3 pipeline/validator.py --rules-dir rules/
+
+      - name: Static Analysis & Code Linting
+        run: |
+          flake8 pipeline/ tests/ --max-line-length=120 --exclude=venv
+          yamllint -d "{extends: default, rules: {line-length: {max: 180}, document-start: disable}}" rules/
+
+  regression-testing:
+    name: 2. Synthetic Replay & Regression Testing
+    needs: lint-and-validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Testing Dependencies
+        run: |
+          pip install -r requirements-test.txt
+
+      - name: Profile Rule Execution Latency & Algorithmic Complexity
+        run: |
+          python3 pipeline/latency_profiler.py --rules-dir rules/ --threshold-ms 10.0 --max-complexity 100
+
+      - name: Execute Pytest Suite (True Positive & False Positive Assertions)
+        run: |
+          mkdir -p reports
+          python -m pytest tests/test_rule_execution.py tests/test_schema_conformance.py --junitxml=reports/test-results.xml -v
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: reports/
+
+  transpile-and-package:
+    name: 3. Multi-SIEM Transpilation & Packaging
+    needs: regression-testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Transpiler Backend Plugins
+        run: |
+          pip install -r requirements.txt
+
+      - name: Compile Detections to SPL, KQL, XQL, Lucene
+        run: |
+          mkdir -p dist/splunk dist/sentinel dist/elastic dist/cortex
+          python3 pipeline/transpile.py --input-dir rules/ --output-dir dist/
+
+      - name: Upload Compiled Rule Bundles
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-rule-bundles
+          path: dist/

@@ -1,0 +1,26 @@
+{
+  "kind": "Event",
+  "apiVersion": "audit.k8s.io/v1",
+  "level": "Metadata",
+  "stage": "ResponseComplete",
+  "verb": "get",
+  "resource": "pods",
+  "subresource": "status",
+  "requestURI": "/api/v1/namespaces/prod-payments/pods/payment-api-7b89f-k2l9/status",
+  "user": {
+    "username": "system:node:worker-node-03",
+    "groups": ["system:nodes", "system:authenticated"]
+  },
+  "sourceIPs": ["10.244.0.1"],
+  "userAgent": "kubelet/v1.28.2 (linux/amd64)",
+  "objectRef": {
+    "resource": "pods",
+    "namespace": "prod-payments",
+    "name": "payment-api-7b89f-k2l9",
+    "subresource": "status"
+  },
+  "responseStatus": {
+    "metadata": {},
+    "code": 200
+  }
+}
