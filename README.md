@@ -171,3 +171,4 @@ git push origin feature/new-lsass-detection
 - **ReDoS Mitigation**: Regex expressions are statically analyzed for catastrophic backtracking (nested quantifiers, overlapping alternations) before reaching SIEM deployment.
 - **Zero FP Assurance**: CI/CD gate halts immediately if a benign enterprise baseline log triggers an alert.
 - **Strict Typing & Linting**: All codebase modules leverage Python type hints (`from __future__ import annotations`), pass strict Flake8 formatting (`--max-line-length=120`), and adhere to Yamllint schemas.
+# dac-forge
